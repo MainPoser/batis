@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lovejava.mapper.UserMapper">
+    <select id="findAll" resultType="usEr">
+        select * from user
+    </select>
+    <select id="findOne" resultType="User">
+        select * from user where id = 1
+    </select>
+    <insert id="addUser" parameterType="user">
+        insert into user values (#{id},#{username},#{birthday},#{sex},#{address})
+    </insert>
+    <update id="updateUser" parameterType="useR">
+        update user set address=#{address} where id =#{id}
+    </update>
+    <delete id="deleteUser" parameterType="java.util.Map">
+        delete from user where username = #{username} and address = #{address};
+    </delete>
+    <select id="findUsersByLike" parameterType="string" resultType="com.lovejava.domain.User">
+        select * from user where username like '%${value}%'
+    </select>
+    <select id="findUserByVo" parameterType="UserInfo" resultType="User">
+        select * from user where username = #{user.username}
+    </select>
+
+    <!--
+        添加一个映射，让数据库字段名和JavaBean的属性名一一对应
+    -->
+
+    <select id="findUserMistake" resultMap="01">
+    select * from user
+</select>
+    <!--定义一个resultMap来映射字段名和属性名-->
+    <resultMap id="01" type="usermistake">
+        <!--id主键特有映射,用id标签-->
+        <id property="userId" column="id"></id>
+        <result property="userBirthday" column="birthday"></result>
+        <result property="userAddress" column="address"></result>
+        <result property="userSex" column="sex"></result>
+    </resultMap>
+</mapper>
